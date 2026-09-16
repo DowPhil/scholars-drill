@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getPendingEmail } from "@/lib/auth/session";
 import { VerifyForm } from "./verify-form";
 
 export const metadata: Metadata = {
@@ -12,7 +13,9 @@ export default async function VerifyPage({
 }: {
   searchParams: Promise<{ email?: string }>;
 }) {
-  const { email } = await searchParams;
+  const { email: fromQuery } = await searchParams;
+  // Signup hands the address over in an httpOnly cookie rather than the URL.
+  const email = fromQuery ?? (await getPendingEmail());
 
   return (
     <div className="rounded-2xl border border-line bg-surface p-6 shadow-card sm:p-8">

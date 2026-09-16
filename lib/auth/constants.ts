@@ -6,6 +6,12 @@
  */
 export const SESSION_COOKIE = "sd_session";
 
+/**
+ * Carries the email from signup to the verify page without putting it in the
+ * URL, where it would land in browser history and server logs.
+ */
+export const PENDING_EMAIL_COOKIE = "sd_pending_email";
+
 /** Areas that require a signed-in account. Used by the optimistic proxy gate. */
 export const PROTECTED_PREFIXES = [
   "/dashboard",

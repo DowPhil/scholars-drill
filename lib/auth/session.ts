@@ -7,7 +7,7 @@
  */
 import { cookies } from "next/headers";
 import { apiFetch, ApiError } from "@/lib/api/client";
-import { SESSION_COOKIE } from "@/lib/auth/constants";
+import { SESSION_COOKIE, PENDING_EMAIL_COOKIE } from "@/lib/auth/constants";
 
 export { SESSION_COOKIE };
 
@@ -91,4 +91,22 @@ export async function getSession(): Promise<SessionUser | null> {
     }
     return null;
   }
+}
+
+/** Remember who just signed up, so the verify page knows where the code went. */
+export async function setPendingEmail(email: string): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(PENDING_EMAIL_COOKIE, email, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    // The OTP itself expires in 10 minutes; allow for a resend or two.
+    maxAge: 60 * 30,
+  });
+}
+
+export async function getPendingEmail(): Promise<string | undefined> {
+  const cookieStore = await cookies();
+  return cookieStore.get(PENDING_EMAIL_COOKIE)?.value;
 }
