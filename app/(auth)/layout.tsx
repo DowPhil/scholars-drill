@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BrandMark } from "@/app/_components/brand-mark";
+import { ThemeSwitch } from "@/app/_components/theme-switch";
 
 /**
  * Shell for signed-out pages: login, signup, OTP, password reset.
@@ -8,8 +9,9 @@ import { BrandMark } from "@/app/_components/brand-mark";
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <header className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6">
+      <header className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-6 sm:px-6">
         <BrandMark />
+        <ThemeSwitch variant="icon" />
       </header>
 
       <main className="flex flex-1 items-start justify-center px-4 pb-16 sm:items-center sm:px-6">

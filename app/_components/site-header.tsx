@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BrandMark } from "./brand-mark";
 import { button, container } from "./ui";
+import { ThemeSwitch } from "./theme-switch";
 
 const links = [
   { href: "#modes", label: "Practice modes" },
@@ -28,6 +29,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          <ThemeSwitch variant="icon" />
           <Link
             href="/login"
             className="rounded-full px-3 py-2 text-sm font-semibold text-ink transition-colors hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"

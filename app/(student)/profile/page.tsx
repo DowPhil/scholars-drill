@@ -7,6 +7,7 @@ import { readOnboarding } from "@/lib/onboarding";
 import { formatDate, getPlanStatus } from "@/lib/plan";
 import { button, card, page } from "@/app/_components/ui";
 import { PasswordForm } from "./password-form";
+import { ThemeSwitch } from "@/app/_components/theme-switch";
 
 export const metadata: Metadata = { title: "Profile" };
 
@@ -132,6 +133,14 @@ export default async function ProfilePage() {
               ))}
           </dl>
           <p className="mt-4 text-sm text-muted">Name and email are managed on your DSA account.</p>
+        </section>
+
+        <section className={card} aria-labelledby="appearance-heading">
+          <h2 id="appearance-heading" className="font-semibold">Appearance</h2>
+          <p className="mt-1 text-sm text-muted">
+            System follows your device. Dark is easier on the eyes for night practice.
+          </p>
+          <ThemeSwitch className="mt-4 max-w-sm" />
         </section>
 
         <section className={card} aria-labelledby="password-heading">

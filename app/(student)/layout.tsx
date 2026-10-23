@@ -5,6 +5,7 @@ import { unreadCount } from "@/lib/notifications";
 import { logout } from "@/app/(auth)/login/actions";
 import { BrandMark } from "@/app/_components/brand-mark";
 import { NavLinks } from "./_components/nav-links";
+import { ThemeSwitch } from "@/app/_components/theme-switch";
 import { PlanBanner } from "./_components/plan-banner";
 import { getPlanStatus } from "@/lib/plan";
 
@@ -40,6 +41,7 @@ export default async function StudentLayout({ children }: { children: React.Reac
           </summary>
           <nav aria-label="Main" className="grid gap-1 border-t border-line px-4 py-3">
             <NavLinks unread={unread} />
+            <ThemeSwitch className="my-2" />
             <form action={logout}>
               <button type="submit" className={logoutButton}>
                 <SignOut size={20} aria-hidden />
@@ -58,6 +60,8 @@ export default async function StudentLayout({ children }: { children: React.Reac
           <NavLinks compact unread={unread} />
         </nav>
         <div className="grid gap-1 border-t border-line pt-4">
+          <ThemeSwitch className="mb-2 hidden lg:grid" />
+          <ThemeSwitch variant="icon" className="mx-auto lg:hidden" />
           <p className="hidden truncate px-3 pb-1 text-sm text-muted lg:block">{session.fullname}</p>
           <form action={logout}>
             <button type="submit" title="Log out" className={`${logoutButton} max-lg:justify-center`}>
