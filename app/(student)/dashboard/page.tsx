@@ -1,48 +1,38 @@
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
-import { container } from "@/app/_components/ui";
+import { readOnboarding } from "@/lib/onboarding";
+import { page } from "@/app/_components/ui";
+import { DashboardLive } from "./dashboard-live";
 
 export const metadata: Metadata = { title: "Dashboard" };
 
 /**
- * Placeholder. It exists so login has somewhere to land and so the session is
- * visibly working end to end. The real dashboard (continue practising,
- * recommendations, weak areas) comes with the practice engine.
+ * Home: answers "what do I do now" (WEB-PRD 6.2).
+ *
+ * The greeting renders here; the cards read attempt history, which lives in
+ * the browser while practice is simulated (see DashboardLive).
  */
 export default async function DashboardPage() {
   // The layout already redirected anyone without a session.
   const session = (await getSession())!;
+  const firstName = session.fullname.split(" ")[0];
 
-  const details: Array<[string, string | null | undefined]> = [
-    ["Email", session.email],
-    ["Role", session.role],
-    ["DSA Student ID", session.studentId || "Not a DSA-enrolled student"],
-    ["Exam track", session.examTrack],
-    ["Level", session.currentLevel],
-    ["Programmes", session.programmes?.length ? session.programmes.join(", ") : null],
-  ];
+  // First visit after sign-up: onboarding, once. Finishing or skipping ends it.
+  const onboarding = await readOnboarding();
+  if (!onboarding) redirect("/onboarding");
+  const profile = onboarding.status === "done" ? onboarding.profile : undefined;
+  const preparing = profile ? `${profile.exam} ${profile.year}` : session.examTrack;
 
   return (
-    <section className={`${container} py-12 lg:py-16`}>
-      <p className="text-sm font-semibold text-brand-ink">Signed in</p>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-        Welcome, {session.fullname.split(" ")[0]}.
-      </h1>
-      <p className="mt-4 max-w-[38rem] leading-relaxed text-muted">
-        Your account works across Distinguished Scholars Academy and Scholars
-        Drill. Practice modes, mocks and your performance breakdown arrive next.
+    <div className={page}>
+      <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Welcome, {firstName}.</h1>
+      <p className="mt-2 text-muted">
+        {preparing ? `Preparing for ${preparing}. ` : ""}
+        Here is where you stand and what to do next.
       </p>
 
-      <dl className="mt-10 grid max-w-2xl gap-x-8 gap-y-5 rounded-2xl border border-line bg-surface p-6 sm:grid-cols-2 sm:p-8">
-        {details
-          .filter(([, value]) => value)
-          .map(([label, value]) => (
-            <div key={label}>
-              <dt className="text-sm text-muted">{label}</dt>
-              <dd className="mt-1 font-medium break-words">{value}</dd>
-            </div>
-          ))}
-      </dl>
-    </section>
+      <DashboardLive firstSubject={profile?.subjects[0]} />
+    </div>
   );
 }

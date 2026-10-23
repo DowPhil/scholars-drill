@@ -10,3 +10,8 @@ export const button = {
 };
 
 export const container = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
+
+/** Content area beside the signed-in sidebar. */
+export const page = "w-full max-w-6xl px-4 py-8 sm:px-6 lg:px-10 lg:py-10";
+
+export const card = "rounded-2xl border border-line bg-surface p-5 sm:p-6";

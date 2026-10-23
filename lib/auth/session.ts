@@ -24,6 +24,13 @@ export type SessionUser = {
   programmes?: string[];
   examTrack?: string | null;
   currentLevel?: string | null;
+  // Plan fields, as /auth/me sends them; lib/plan.ts reads them.
+  accessLevel?: "free" | "portal" | "tutorial";
+  tutorialExpiry?: string | null;
+  paymentStatus?: "none" | "pending-offline" | "active" | "expired" | "disabled";
+  accessEnabled?: boolean;
+  learningMode?: string | null;
+  physicalEnrollment?: { verified: boolean; expiresAt: string | null };
 };
 
 /**

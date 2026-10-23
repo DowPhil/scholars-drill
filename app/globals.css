@@ -110,3 +110,11 @@ body {
     }
   }
 }
+
+/* Question maths (app/_components/math-text.tsx). The system's maths font,
+   so nothing extra downloads; colour follows the text in both themes. */
+math {
+  font-family: "STIX Two Math", "Cambria Math", "Latin Modern Math", math;
+  font-size: 1.1em;
+  color: inherit;
+}
